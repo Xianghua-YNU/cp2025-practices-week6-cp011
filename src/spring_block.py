@@ -86,14 +86,32 @@ def plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, 
     position_odeint (np.ndarray): odeint 的位置数组
     velocity_odeint (np.ndarray): odeint 的速度数组
     """
-    # TODO: 创建图形并设置大小
+    # 创建图形并设置大小
+    plt.figure(figsize=(12, 6))
     
-    # TODO: 绘制位置对比图
+    # 绘制位置对比图
+    plt.subplot(1, 2, 1)
+    plt.plot(time_euler, position_euler, label='Euler Method', linestyle='--')
+    plt.plot(time_odeint, position_odeint, label='odeint', linestyle='-')
+    plt.xlabel('Time')
+    plt.ylabel('Position')
+    plt.title('Position vs Time')
+    plt.legend()
+    plt.grid(True)
     
-    # TODO: 绘制速度对比图
+    # 绘制速度对比图
+    plt.subplot(1, 2, 2)
+    plt.plot(time_euler, velocity_euler, label='Euler Method', linestyle='--')
+    plt.plot(time_odeint, velocity_odeint, label='odeint', linestyle='-')
+    plt.xlabel('Time')
+    plt.ylabel('Velocity')
+    plt.title('Velocity vs Time')
+    plt.legend()
+    plt.grid(True)
     
-    # TODO: 显示图形
-    pass
+    # 调整布局并显示图形
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == "__main__":
