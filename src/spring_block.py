@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np 
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
@@ -17,18 +17,18 @@ def solve_ode_euler(step_num):
     position = np.zeros(step_num + 1)
     velocity = np.zeros(step_num + 1)
 
-    # 计算时间步长
+    # 计算时间步长，假设总时间周期为 2π
     time_step = 2 * np.pi / step_num
 
     # 设置初始位置和速度
-    position[0] = 0
-    velocity[0] = 1
+    position[0] = 0  # 初始位置
+    velocity[0] = 1  # 初始速度
 
     # 使用欧拉法迭代求解微分方程
     for i in range(step_num):
-        # 根据微分方程更新位置
+        # 根据当前速度更新位置
         position[i + 1] = position[i] + velocity[i] * time_step
-        # 根据微分方程更新速度，这里假设 k = m = 1
+        # 根据微分方程 dv/dt = -x 更新速度（假设 k/m = 1）
         velocity[i + 1] = velocity[i] - position[i] * time_step
 
     # 生成时间数组
@@ -49,8 +49,8 @@ def spring_mass_ode_func(state, time):
     list: 包含位置和速度的导数的列表
     """
     position, velocity = state
-    d_position_dt = velocity
-    d_velocity_dt = -position
+    d_position_dt = velocity  # 位置的导数是速度
+    d_velocity_dt = -position  # 速度的导数是加速度（由 F = -kx 确定）
     return [d_position_dt, d_velocity_dt]
 
 
@@ -64,12 +64,13 @@ def solve_ode_odeint(step_num):
     返回:
     tuple: 包含时间数组、位置数组和速度数组的元组
     """
-    # 初始条件
+    # 初始条件，位置 = 0，速度 = 1
     initial_state = [0, 1]
-    # 时间点
+    # 生成时间点数组，均匀分布在 0 到 2π 之间
     time_points = np.linspace(0, 2 * np.pi, step_num + 1)
-    # 使用 odeint 求解微分方程
+    # 使用 odeint 数值求解微分方程
     solution = odeint(spring_mass_ode_func, initial_state, time_points)
+    # 提取位置和速度数据
     position = solution[:, 0]
     velocity = solution[:, 1]
     return time_points, position, velocity
@@ -91,8 +92,8 @@ def plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, 
 
     # 绘制位置对比图
     plt.subplot(1, 2, 1)
-    plt.plot(time_euler, position_euler, 'ro', label='Euler Position')
-    plt.plot(time_odeint, position_odeint, 'b-', label='ODEint Position')
+    plt.plot(time_euler, position_euler, 'ro', label='Euler Position')  # 欧拉法位置
+    plt.plot(time_odeint, position_odeint, 'b-', label='ODEint Position')  # odeint 位置
     plt.xlabel('Time')
     plt.ylabel('Position')
     plt.title('Position Comparison')
@@ -101,8 +102,8 @@ def plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, 
 
     # 绘制速度对比图
     plt.subplot(1, 2, 2)
-    plt.plot(time_euler, velocity_euler, 'gs', label='Euler Velocity')
-    plt.plot(time_odeint, velocity_odeint, 'm-', label='ODEint Velocity')
+    plt.plot(time_euler, velocity_euler, 'gs', label='Euler Velocity')  # 欧拉法速度
+    plt.plot(time_odeint, velocity_odeint, 'm-', label='ODEint Velocity')  # odeint 速度
     plt.xlabel('Time')
     plt.ylabel('Velocity')
     plt.title('Velocity Comparison')
@@ -114,11 +115,9 @@ def plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, 
 
 
 if __name__ == "__main__":
-    # 模拟步数
-    step_count = 100
-    # 欧拉法求解
-    time_euler, position_euler, velocity_euler = solve_ode_euler(step_count)
-    # odeint 求解
-    time_odeint, position_odeint, velocity_odeint = solve_ode_odeint(step_count)
-    # 绘制对比结果
+    step_count = 100  # 设置模拟步数
+    time_euler, position_euler, velocity_euler = solve_ode_euler(step_count)  # 使用欧拉法求解微分方程
+    time_odeint, position_odeint, velocity_odeint = solve_ode_odeint(step_count)  # 使用 odeint 求解微分方程
+    # 绘制两种方法的解并进行比较
     plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, position_odeint, velocity_odeint)
+
