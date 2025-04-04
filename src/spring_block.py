@@ -101,17 +101,16 @@ def plot_ode_solutions(time_euler, position_euler, velocity_euler, time_odeint, 
     plt.grid(True)
 
     # 绘制速度对比图
-    plt.subplot(1, 2, 2)
-    plt.plot(time_euler, velocity_euler, 'gs', label='Euler Velocity')  # 欧拉法速度
-    plt.plot(time_odeint, velocity_odeint, 'm-', label='ODEint Velocity')  # odeint 速度
-    plt.xlabel('Time')
-    plt.ylabel('Velocity')
-    plt.title('Velocity Comparison')
-    plt.legend()
-    plt.grid(True)
-
-    plt.tight_layout()
-    plt.show()
+    plt.subplot(1, 2, 2)  # 创建一个1行2列的子图，并选择第2个子图
+    plt.plot(time_euler, velocity_euler, 'gs', label='Euler Velocity')  # 用绿色方块(gs)标记欧拉法计算的速度
+    plt.plot(time_odeint, velocity_odeint, 'm-', label='ODEint Velocity')  # 用洋红色实线(m-)绘制odeint计算的速度
+    plt.xlabel('Time')  # 设置x轴标签为"Time"，y轴标签为 "Velocity"
+    plt.ylabel('Velocity')  
+    plt.title('Velocity Comparison')  # 设置图表标题为"Velocity Comparison"
+    plt.legend()  # 显示图例
+    plt.grid(True)  # 显示网格
+    plt.tight_layout()  # 调整子图布局，防止重叠
+    plt.show()  # 显示绘制的图像
 
 
 if __name__ == "__main__":
