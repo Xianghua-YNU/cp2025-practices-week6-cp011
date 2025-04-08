@@ -30,11 +30,25 @@ def simulate_beat_frequency(f1=440, f2=444, A1=1.0, A2=1.0, t_start=0, t_end=1, 
         # 绘制第一个波
         plt.subplot(3, 1, 1)
         # 学生任务6: 完成wave1的绘制
-        
+        plt.plot(t, wave1, label=f'{f1} Hz')
+        plt.plot(t, superposed_wave, label=f'Beat frequency {beat_frequency} Hz', linestyle='--')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Amplitude')
+        plt.title('Waveforms and Beat Frequency')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
         # 绘制第二个波
         plt.subplot(3, 1, 2)
         # 学生任务7: 完成wave2的绘制
-        
+        plt.plot(t, wave2, label=f'{f2} Hz')
+        plt.plot(t, superposed_wave, label=f'Beat frequency {beat_frequency} Hz', linestyle='--')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Amplitude')
+        plt.title('Waveforms and Beat Frequency')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
         # 绘制叠加波
         plt.subplot(3, 1, 3)
         # 学生任务8: 完成superposed_wave的绘制
