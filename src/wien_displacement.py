@@ -24,19 +24,28 @@ def plot_wien_equation():
     - y = 5 - x 直线
     两条曲线的交点即为方程的解
     """
-    # TODO: 创建x轴数据点
-    x = None
+    x = np.linspace(0, 10, 500)  # 在x轴创建一个从0到10之间的500个等间距的数值数组
+    # 计算 y = 5e^(-x) 和 y = 5-x
+    y1 = 5*np.exp(-x)
+    y2 = 5-x
     
-    # TODO: 创建图形并设置大小
+    plt.figure(figsize=(8, 6)) # 创建图形并设置大小为8×6英寸
     
-    # TODO: 绘制两条曲线
-    
-    # TODO: 设置坐标轴标签和标题
-    
-    # TODO: 添加图例和网格
-    
-    # TODO: 显示图形
-    pass
+    '''
+    绘制两条曲线，其中：
+    y1 = 5e^(−x)的图例名称为r'$y = 5e^{-x}$'，采用蓝色虚线
+    y2 = 5−x的图例名称为r'$y = 5 - x$'，采用红色实线
+    '''
+    plt.plot(x, y1, label=r'$y = 5e^{-x}$', linestyle='--', color='b')  
+    plt.plot(x, y2, label=r'$y = 5 - x$', linestyle='-', color='r')
+
+    # 设置坐标轴标签和标题
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Visualization of Wien’s Displacement Equation')
+    plt.legend()  # 添加图例
+    plt.grid(True)  # 添加网格
+    plt.show()  # 显示图形
 
 def wien_equation(x):
     """维恩方程：5e^(-x) + x - 5 = 0
@@ -47,8 +56,7 @@ def wien_equation(x):
     返回:
     float: 方程的函数值
     """
-    # TODO: 返回维恩方程的函数值
-    return None
+    return 5*np.exp(-x)+x-5
 
 def solve_wien_constant(x0):
     """求解维恩位移常数
@@ -64,11 +72,16 @@ def solve_wien_constant(x0):
         - x (float): 非线性方程的解
         - b (float): 维恩位移常数，单位：m·K
     """
-    # TODO: 使用fsolve求解非线性方程
-    x = None
     
-    # TODO: 计算维恩位移常数
-    b = None
+    x = fsolve(wien_equation, x0)[0]
+    # 使用fsolve数值方法(找到一个x值，使得wien_equation(x) = 0),求解非线性方程5e^(-x)+x-5=0，其中：
+    # wien_equation是已经定义函数，返回5e^(-x)+x-5的值
+    # x0是初始猜测值
+    # fsolve函数会返回一个数组(只有一个解)，[0]则是对该数组的索引，表示对x赋上数组第一个元素的值
+    h = constants.h  # 普朗克常数
+    c = constants.c  # 光速
+    k_B = constants.k  # 玻尔兹曼常数
+    b = (h*c)/(k_B*x)  # 计算维恩位移常数 b = hc/(k_B * x)
     
     return x, b
 
@@ -84,8 +97,12 @@ def calculate_temperature(wavelength, x0=5.0):
     返回:
     float: 黑体温度，单位：开尔文
     """
-    # TODO: 计算温度
-    return None
+    # 计算维恩位移常数
+    _, b = solve_wien_constant(x0)
+    
+    # 计算温度T = b/λ
+    temperature = b/wavelength
+    return temperature
 
 if __name__ == "__main__":
     # 绘制方程图像
